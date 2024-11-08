@@ -1,7 +1,7 @@
 import cx from "classnames"
 import css from "./MainPage.module.scss"
 import { width } from "../App"
-import Chat from "../components/Chat"
+// import Chat from "../components/Chat"
 import { Tickets } from "../components/Ticket"
 // import { useQuery } from "@tanstack/react-query"
 // import { getAllWeatherForecasts } from "../queries/WeatherForecast"

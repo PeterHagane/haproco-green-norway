@@ -28,7 +28,7 @@ export const Login = ({
 ) => {
     const formRef = useRef<HTMLFormElement>(null)
     // const { register, handleSubmit } = useForm<ILoginForm>()
-    const { registerUser, signIn, signOut, user, isLoading, isError, isSignedIn, isAdmin } = usePocket()
+    const { registerUser, signIn, signOut, user, isLoading, isSignedIn, isAdmin } = usePocket()
     const navigate = useNavigate()
 
     const [fields, setFields] = useState<ILoginForm>({username: "", password: ""})

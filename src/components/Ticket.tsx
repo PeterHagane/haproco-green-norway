@@ -29,7 +29,7 @@ export const Tickets = ({
 }:ITicket) => {
     return <div className={cx(css.tickets, className, "flex column")}>
         {dummytickets.map((ticket, i)=>{
-            return <Ticket message={ticket.message} sender={ticket.sender}/>
+            return <Ticket key={i} message={ticket.message} sender={ticket.sender}/>
         })}
     </div>
 }
