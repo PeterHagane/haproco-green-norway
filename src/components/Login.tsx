@@ -2,9 +2,10 @@ import cx from "classnames";
 import css from "./Login.module.scss"
 import { useRef, useState } from "react";
 import ModalTabManager from "./ModalTabManager";
-import { ILoginForm, usePocket, pb } from "../stores/PocketBaseProvider";
-import { useForm } from "react-hook-form";
+import { ILoginForm, usePocket} from "../stores/PocketBaseProvider";
+// import { useForm } from "react-hook-form";
 import { useNavigate } from "@tanstack/react-router";
+import Loader from "./Loader";
 
 interface ILogin {
     className?: string
@@ -27,7 +28,7 @@ export const Login = ({
 ) => {
     const formRef = useRef<HTMLFormElement>(null)
     // const { register, handleSubmit } = useForm<ILoginForm>()
-    const { registerUser, signIn, signOut, user, isLoading, isError, isSignedIn } = usePocket()
+    const { registerUser, signIn, signOut, user, isLoading, isError, isSignedIn, isAdmin } = usePocket()
     const navigate = useNavigate()
 
     const [fields, setFields] = useState<ILoginForm>({username: "", password: ""})
@@ -45,49 +46,47 @@ export const Login = ({
     }
 
     const showUser = isSignedIn
-    const showForm = !isSignedIn && (!isLoading || isError)
-    const showLoader = isLoading && !isError
-    const showError = isError
+    const showForm = !isSignedIn
+    const showLoader = isLoading
+    // const showError = isError
 
-    return <div style={style} className={cx(className)}>
-        {!isSignedIn && <>
+    return <div style={style} className={cx(className, "flex column gap-m nostretch ")}>
         
-        </>
-        }
-
-        {showUser && <>{`Signed in as ${user?.username ? user?.username : ""} ${pb?.authStore.isAdmin ? "admin" : ""}`}</>}
-        {showError && <>Error signing in.</>}
-        {showLoader && <div className="loader"></div>}
+        {showUser && user?.username && <div>User: {user.username}</div>}
+        {showUser && user?.email && <div>Email: {user.email}</div>}
+        {isAdmin && <div>Signed in as admin.</div>}
+        {/* {showError && <>Error signing in.</>} */}
+        {/* {showLoader && <div className="loader"></div>} */}
+        {showLoader && <Loader></Loader>}
         {showForm && <ModalTabManager containerRef={formRef}>
             <form 
+                onSubmit={(e)=>{e.preventDefault()}}
                 ref={formRef} className={cx("flex center column gap-s", css.container)}>
                 <div className="inputContainer">
                     <input
-                    // {...register("username")} 
                     onChange={(e)=>setFields({...fields, username: e.target.value})}
                     autoFocus className="shadow" type="username" id={loginIds.userName} placeholder="username or email" required></input>
                     <label htmlFor={loginIds.userName}>username or email</label>
                 </div>
                 <div className="inputContainer">
                     <input  
-                    // {...register("password")}
                     onChange={(e)=>setFields({...fields, password: e.target.value})}
                     className="shadow" type="password" id={loginIds.password} placeholder="password" required></input>
                     <label htmlFor={loginIds.password}>password</label>
                 </div>
                 <div className={cx("flex center gap-s")}>
-                    <button type="button" onClick={()=>handleSignIn(fields)} className="defaultButton small submit" value="signin">Sign in</button>
-                    <button type="button" onClick={()=>handleRegister(fields)} className="defaultButton small submit" value="newuser">New user</button>
+                    <button type="submit" onClick={()=>handleSignIn(fields)} className="defaultButton bg small submit padding" value="signin">Sign in</button>
+                    <button type="submit" onClick={()=>handleRegister(fields)} className="defaultButton bg small submit padding" value="newuser">Register user</button>
                 </div>
             </form>
         </ModalTabManager>
         }
 
         {
-            isSignedIn &&
-            <button type="submit" className="defaultButton small submit" value="signout" onClick={() => {
+            showUser &&
+            <button type="submit" className="defaultButton bg small submit" value="signout" onClick={() => {
                 signOut && signOut()
-            }}>signout</button>
+            }}>Sign out</button>
         }
 
         {children}

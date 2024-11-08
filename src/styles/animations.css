@@ -6,6 +6,14 @@
     animation: ease-in bungee 0.2s;
   }
   
+  /* .bounceRight{
+    animation: ease-in bounceRight 0.2s;
+  }
+
+  .bounceLeft{
+    animation: ease-in bounceLeft 0.2s;
+  } */
+
 /* .bounceSVG{.bounceSVG{
   &:active { 
     transform: scale(0.9); 
@@ -20,6 +28,18 @@
 .bounceSVG{
   svg{
     animation: ease-in bounce 0.2s;
+  }
+}
+
+.bounceSVGright{
+  svg{
+    animation: ease-in bounceRight 0.2s;
+  }
+}
+
+.bounceSVGleft{
+  svg{
+    animation: ease-in bounceLeft 0.2s;
   }
 }
 
@@ -148,6 +168,30 @@
     }
     to {
       transform: translateY(0%);
+    }
+  }
+
+  @keyframes bounceRight {
+    from {
+      transform: translateX(0%);
+    }
+    50%{
+      transform: translateX(-3px);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
+
+  @keyframes bounceLeft {
+    from {
+      transform: translateX(0%);
+    }
+    50%{
+      transform: translateX(3px);
+    }
+    to {
+      transform: translateX(0%);
     }
   }
   
